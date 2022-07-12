@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 // app.use('/api/category',categoryRouter);
 // app.use('/api/product',productRouter);
 // app.use('/api/order',orderRouter);
-app.use("/",(req,resp)=>{
+app.get("/",(req,resp)=>{
     console.log("Hello Server")
 })
 /** App Running */
