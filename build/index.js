@@ -30,7 +30,9 @@ app.use(body_parser_1.default.json());
 // app.use('/api/order',orderRouter);
 app.get("/", function (req, resp) {
     console.log("Hello Server");
-    return "Hello server !";
+    return resp.status(200).json({
+        data: "Hello Wolrd"
+    });
 });
 /** App Running */
 app.listen(port, function () {
