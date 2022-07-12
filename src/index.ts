@@ -29,6 +29,7 @@ app.use(bodyParser.json());
 // app.use('/api/order',orderRouter);
 app.get("/",(req,resp)=>{
     console.log("Hello Server")
+    return "Hello server !";
 })
 /** App Running */
 app.listen(port,()=>{
