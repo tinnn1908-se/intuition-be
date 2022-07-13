@@ -43,7 +43,7 @@ var ProductQueries = /** @class */ (function () {
     }
     ProductQueries.getNewestProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, connection, products;
+            var sql, connection, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -54,8 +54,8 @@ var ProductQueries = /** @class */ (function () {
                         connection = _a.sent();
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
-                        products = _a.sent();
-                        return [2 /*return*/, products];
+                        result = _a.sent();
+                        return [2 /*return*/, result[0]];
                 }
             });
         });

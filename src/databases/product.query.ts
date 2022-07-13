@@ -5,7 +5,7 @@ export default class ProductQueries {
         var sql : string = `select * from ${DBCONSTANTS.PRODUCTS_TABLE} limit 3`;
         console.log("ProductQueries")
         var connection = await getConnection();
-        const products = await connection.query(sql);
-        return products;
+        const result = await connection.query(sql);
+        return result[0];
     }
 }
