@@ -12,7 +12,7 @@ var product_route_1 = __importDefault(require("./routes/product.route"));
 // import categoryRouter from './routes/category.router'
 // import productRouter from './routes/product.router';
 // import orderRouter from './routes/order.router';
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 1908;
 var app = (0, express_1.default)();
 /** CORS */
 var allowedOrigins = ['http://localhost:3000'];

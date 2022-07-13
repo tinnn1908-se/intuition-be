@@ -35,9 +35,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../db");
 var db_constant_1 = require("../constants/db.constant");
+var helper_1 = __importDefault(require("../helper"));
 var ProductQueries = /** @class */ (function () {
     function ProductQueries() {
     }
@@ -48,14 +52,67 @@ var ProductQueries = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
-                        console.log("ProductQueries");
                         return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
                         connection = _a.sent();
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
                         result = _a.sent();
+                        helper_1.default.dbLog(this.getNewestProducts.name, sql);
                         return [2 /*return*/, result[0]];
+                }
+            });
+        });
+    };
+    ProductQueries.getSizeByProductNo = function (productNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql, connection, result, returnValues, index, value;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sql = 'SELECT S.value FROM tproducts P JOIN tproductsize M ON P.no = M.product_no JOIN TSIZES S ON M.size_no = S.no '
+                            + "WHERE P.no =  ".concat(productNo);
+                        return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 2:
+                        result = (_a.sent())[0];
+                        returnValues = [];
+                        for (index = 0; index < result.length; index++) {
+                            value = result[index].value;
+                            returnValues.push(value);
+                        }
+                        helper_1.default.dbLog(this.getSizeByProductNo.name, sql);
+                        return [2 /*return*/, returnValues];
+                }
+            });
+        });
+    };
+    ProductQueries.getColorsByProductNo = function (productNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql, connection, result, returnValues, index, value, name;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        sql = 'SELECT C.value, C.name FROM TPRODUCTS P '
+                            + 'JOIN TPRODUCTCOLOR M ON P.no = M.product_no '
+                            + 'JOIN TCOLORS C ON M.color_no = C.no '
+                            + "WHERE P.no =  ".concat(productNo);
+                        return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 2:
+                        result = (_a.sent())[0];
+                        returnValues = [];
+                        for (index = 0; index < result.length; index++) {
+                            value = result[index].value;
+                            name = result[index].name;
+                            returnValues.push({ value: value, name: name });
+                        }
+                        helper_1.default.dbLog(this.getColorsByProductNo.name, sql);
+                        return [2 /*return*/, returnValues];
                 }
             });
         });

@@ -13,6 +13,9 @@ var MyHelper = /** @class */ (function () {
         }
         return rows;
     };
+    MyHelper.dbLog = function (fncName, sql) {
+        console.log("".concat(fncName, " : ").concat(sql));
+    };
     return MyHelper;
 }());
 exports.default = MyHelper;

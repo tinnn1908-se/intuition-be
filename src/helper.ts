@@ -8,5 +8,8 @@ export default class MyHelper {
         }
         return rows;
     }
+    static dbLog(fncName: string, sql: string) {
+        console.log(`${fncName} : ${sql}`);
+    }
 
 }

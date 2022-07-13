@@ -45,7 +45,7 @@ var ProductController = /** @class */ (function () {
     }
     ProductController.getNewestProducts = function (req, resp) {
         return __awaiter(this, void 0, void 0, function () {
-            var products;
+            var products, i, sizes, colors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -53,7 +53,23 @@ var ProductController = /** @class */ (function () {
                         return [4 /*yield*/, product_query_1.default.getNewestProducts()];
                     case 1:
                         products = _a.sent();
-                        console.log(products);
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        sizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        colors = _a.sent();
+                        products[i].sizes = sizes;
+                        products[i].colors = colors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6:
                         resp.status(200).json({
                             products: products
                         });

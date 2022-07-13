@@ -8,7 +8,7 @@ import productRouter from './routes/product.route';
 // import categoryRouter from './routes/category.router'
 // import productRouter from './routes/product.router';
 // import orderRouter from './routes/order.router';
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 1908;
 const app = express();
 
 
