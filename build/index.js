@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var cors_1 = __importDefault(require("cors"));
 var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
+var product_route_1 = __importDefault(require("./routes/product.route"));
 // import userRouter from './routes/user.router';
 // import authRouter from './routes/auth.router'
 // import categoryRouter from './routes/category.router'
@@ -26,7 +27,7 @@ app.use(body_parser_1.default.json());
 // app.use('/api/user',userRouter);
 // app.use('/api/auth',authRouter);
 // app.use('/api/category',categoryRouter);
-// app.use('/api/product',productRouter);
+app.use('/api/product', product_route_1.default);
 // app.use('/api/order',orderRouter);
 app.get("/", function (req, resp) {
     console.log("Hello Server");
