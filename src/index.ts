@@ -1,6 +1,8 @@
 import cors,{CorsOptions} from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser'
+import ProductController from './routes/product.route';
+import productRouter from './routes/product.route';
 // import userRouter from './routes/user.router';
 // import authRouter from './routes/auth.router'
 // import categoryRouter from './routes/category.router'
@@ -25,7 +27,7 @@ app.use(bodyParser.json());
 // app.use('/api/user',userRouter);
 // app.use('/api/auth',authRouter);
 // app.use('/api/category',categoryRouter);
-// app.use('/api/product',productRouter);
+app.use('/api/product',productRouter);
 // app.use('/api/order',orderRouter);
 app.get("/",(req,resp)=>{
     console.log("Hello Server")
