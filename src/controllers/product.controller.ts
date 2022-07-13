@@ -11,6 +11,7 @@ export default class ProductController {
             products[i].sizes = sizes;
             products[i].colors = colors;
         }
+        console.log(products)
         resp.status(200).json({
             products
         })

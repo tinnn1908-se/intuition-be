@@ -70,6 +70,7 @@ var ProductController = /** @class */ (function () {
                         i++;
                         return [3 /*break*/, 2];
                     case 6:
+                        console.log(products);
                         resp.status(200).json({
                             products: products
                         });
