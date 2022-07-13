@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../db");
+var db_constant_1 = require("../constants/db.constant");
 var ProductQueries = /** @class */ (function () {
     function ProductQueries() {
     }
@@ -46,7 +47,7 @@ var ProductQueries = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        sql = "select * from tproducts limit 3";
+                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
                         console.log("ProductQueries");
                         return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
