@@ -47,19 +47,29 @@ var ProductQueries = /** @class */ (function () {
     }
     ProductQueries.getNewestProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, connection, result;
+            var connection, sql, result, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
-                        return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
                         connection = _a.sent();
-                        return [4 /*yield*/, connection.query(sql)];
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
                         result = _a.sent();
                         helper_1.default.dbLog(this.getNewestProducts.name, sql);
                         return [2 /*return*/, result[0]];
+                    case 4:
+                        error_1 = _a.sent();
+                        helper_1.default.errLog(this.getNewestProducts.name, error_1);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
@@ -113,6 +123,92 @@ var ProductQueries = /** @class */ (function () {
                         }
                         helper_1.default.dbLog(this.getColorsByProductNo.name, sql);
                         return [2 /*return*/, returnValues];
+                }
+            });
+        });
+    };
+    ProductQueries.getProductsByFilter = function (filter) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, cates, colors, sizes, price, cateFilterSql, colorFilterSql, sizeFilterSql, sql, i, i, i, result, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        cates = filter.cates, colors = filter.colors, sizes = filter.sizes, price = filter.price;
+                        cateFilterSql = '';
+                        colorFilterSql = '';
+                        sizeFilterSql = '';
+                        sql = 'SELECT P.no,P.name,P.price,P.description, P.quantity, '
+                            + 'P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date FROM TPRODUCTS P '
+                            + 'JOIN TPRODUCTSIZE SP ON P.no = SP.product_no '
+                            + 'JOIN TSIZES S ON SP.size_no = S.no '
+                            + 'JOIN TPRODUCTCOLOR PCO ON P.no = PCO.product_no '
+                            + 'JOIN TCOLORS CO ON CO.no = PCO.color_no '
+                            + 'JOIN TCATEGORIES CA ON P.cate_no = CA.no '
+                            + 'WHERE P.quantity > 0 '
+                            + "AND P.price >= ".concat(price.min, " AND P.price <= ").concat(price.max, " ");
+                        console.log("cates lenght : " + filter.cates.length);
+                        if (cates.length > 0) {
+                            console.log("> 0");
+                            cateFilterSql = "AND CA.name IN (";
+                            for (i = 0; i < cates.length; i++) {
+                                if (i !== (cates.length - 1)) {
+                                    cateFilterSql += "'".concat(cates[i], "',");
+                                }
+                                else {
+                                    cateFilterSql += "'".concat(cates[i], "'");
+                                }
+                            }
+                            cateFilterSql += ") ";
+                            sql += cateFilterSql;
+                        }
+                        if (colors.length > 0) {
+                            console.log("> 0");
+                            colorFilterSql = "AND CO.name IN (";
+                            for (i = 0; i < colors.length; i++) {
+                                if (i !== (colors.length - 1)) {
+                                    colorFilterSql += "N'".concat(colors[i], "',");
+                                }
+                                else {
+                                    colorFilterSql += "N'".concat(colors[i], "'");
+                                }
+                            }
+                            colorFilterSql += ") ";
+                            sql += colorFilterSql;
+                        }
+                        if (sizes.length > 0) {
+                            console.log("> 0");
+                            sizeFilterSql = "AND S.value IN (";
+                            for (i = 0; i < sizes.length; i++) {
+                                if (i !== (sizes.length - 1)) {
+                                    sizeFilterSql += "'".concat(sizes[i], "',");
+                                }
+                                else {
+                                    sizeFilterSql += "'".concat(sizes[i], "'");
+                                }
+                            }
+                            sizeFilterSql += ") ";
+                            sql += sizeFilterSql;
+                        }
+                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 5";
+                        console.log(sql);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log("getProductsByFilter : " + sql);
+                        return [2 /*return*/, result];
+                    case 4:
+                        error_2 = _a.sent();
+                        helper_1.default.errLog(this.getProductsByFilter.name, error_2);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });

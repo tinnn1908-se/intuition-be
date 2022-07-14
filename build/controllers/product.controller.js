@@ -79,6 +79,44 @@ var ProductController = /** @class */ (function () {
             });
         });
     };
+    ProductController.getProductsByFilter = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var cates, sizes, colors, price, filter, products, i, tmpSizes, tmpColors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        cates = request.body.cates;
+                        sizes = request.body.sizes;
+                        colors = request.body.colors;
+                        price = request.body.price;
+                        filter = { cates: cates, sizes: sizes, colors: colors, price: price };
+                        console.log(filter);
+                        return [4 /*yield*/, product_query_1.default.getProductsByFilter(filter)];
+                    case 1:
+                        products = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        tmpSizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        tmpColors = _a.sent();
+                        products[i].sizes = tmpSizes;
+                        products[i].colors = tmpColors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6:
+                        console.log(products);
+                        return [2 /*return*/, response.status(200).json({ products: products })];
+                }
+            });
+        });
+    };
     return ProductController;
 }());
 exports.default = ProductController;

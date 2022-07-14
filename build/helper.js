@@ -16,6 +16,9 @@ var MyHelper = /** @class */ (function () {
     MyHelper.dbLog = function (fncName, sql) {
         console.log("".concat(fncName, " : ").concat(sql));
     };
+    MyHelper.errLog = function (fncName, err) {
+        console.log("".concat(fncName, " : ").concat(err));
+    };
     return MyHelper;
 }());
 exports.default = MyHelper;

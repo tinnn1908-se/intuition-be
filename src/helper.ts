@@ -11,5 +11,8 @@ export default class MyHelper {
     static dbLog(fncName: string, sql: string) {
         console.log(`${fncName} : ${sql}`);
     }
+    static errLog(fncName : string, err : any){
+        console.log(`${fncName} : ${err}`)
+    }
 
 }
