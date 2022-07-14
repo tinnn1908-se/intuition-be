@@ -76,10 +76,7 @@ var CategoryController = /** @class */ (function () {
                         return [4 /*yield*/, category_queries_1.default.findCategoryByCateID(cateNo)];
                     case 1:
                         result = _a.sent();
-                        return [2 /*return*/, response.json({
-                                status: 200,
-                                data: result
-                            })];
+                        return [2 /*return*/, response.json({ data: result })];
                 }
             });
         });

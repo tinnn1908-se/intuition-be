@@ -20,10 +20,7 @@ export default class CategoryController {
     static async findCategoryByCateID(request: Request, response: Response) {
         var cateNo: string = request.body.catetID;
         var result = await CategoryQueries.findCategoryByCateID(cateNo);
-        return response.json({
-            status: 200,
-            data: result
-        })
+        return response.json({ data: result })
     }
 
     static async findAllCategories(request: Request, response: Response) {
