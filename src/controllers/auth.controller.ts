@@ -1,10 +1,10 @@
-import {Request,Response} from 'express'
+import { Request, Response } from 'express'
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model';
 import MyHelper from '../helper';
 import UserQueries from '../databases/user.query';
 import AuthMiddleware from '../middleware/auth.middleware';
-export default class AuthController{
+export default class AuthController {
     static async register(request: Request, response: Response) {
         // Mapping user from request
         var user: User = {
@@ -39,16 +39,15 @@ export default class AuthController{
         var refreshToken = null;
         var isCorrectPassword = false;
         if (user) {
+            console.log(user)
             isCorrectPassword = await bcrypt.compare(request.body.password, user.password);
             if (isCorrectPassword) {
                 accessToken = AuthMiddleware.generateToken(user);
                 refreshToken = AuthMiddleware.generateRefreshToken(user.username, user.password);
             }
         }
-
         if (accessToken) {
             return response.status(200).json({
-                status: 200,
                 accessToken,
                 refreshToken
             })

@@ -25,7 +25,7 @@ export default class AuthMiddleware {
         var secretKey = process.env.ACCESS_TOKEN_SECRET;
         var accessToken = '';
         if (secretKey) {
-            accessToken = JWT.sign(user, secretKey, { expiresIn: '3600s', algorithm: 'HS256' });
+            accessToken = JWT.sign({user}, secretKey, { expiresIn: '3600s', algorithm: 'HS256' });
         }
         return accessToken;
     }

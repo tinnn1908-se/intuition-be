@@ -96,6 +96,7 @@ var AuthController = /** @class */ (function () {
                         refreshToken = null;
                         isCorrectPassword = false;
                         if (!user) return [3 /*break*/, 3];
+                        console.log(user);
                         return [4 /*yield*/, bcryptjs_1.default.compare(request.body.password, user.password)];
                     case 2:
                         isCorrectPassword = _a.sent();
@@ -107,7 +108,6 @@ var AuthController = /** @class */ (function () {
                     case 3:
                         if (accessToken) {
                             return [2 /*return*/, response.status(200).json({
-                                    status: 200,
                                     accessToken: accessToken,
                                     refreshToken: refreshToken
                                 })];
