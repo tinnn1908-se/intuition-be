@@ -7,11 +7,9 @@ var cors_1 = __importDefault(require("cors"));
 var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var product_route_1 = __importDefault(require("./routes/product.route"));
-// import userRouter from './routes/user.router';
 var auth_route_1 = __importDefault(require("./routes/auth.route"));
 var category_route_1 = __importDefault(require("./routes/category.route"));
-// import productRouter from './routes/product.router';
-// import orderRouter from './routes/order.router';
+var order_route_1 = __importDefault(require("./routes/order.route"));
 var port = process.env.PORT || 1908;
 var app = (0, express_1.default)();
 /** CORS */
@@ -28,7 +26,7 @@ app.use(body_parser_1.default.json());
 app.use('/api/auth', auth_route_1.default);
 app.use('/api/category', category_route_1.default);
 app.use('/api/product', product_route_1.default);
-// app.use('/api/order',orderRouter);
+app.use('/api/order', order_route_1.default);
 app.get("/", function (req, resp) {
     console.log("Hello Server");
     return resp.status(200).json({

@@ -1,13 +1,10 @@
 import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser'
-import ProductController from './routes/product.route';
 import productRouter from './routes/product.route';
-// import userRouter from './routes/user.router';
 import authRouter from './routes/auth.route'
 import categoryRouter from './routes/category.route';
-// import productRouter from './routes/product.router';
-// import orderRouter from './routes/order.router';
+import orderRouter from './routes/order.route';
 var port = process.env.PORT || 1908;
 const app = express();
 
@@ -28,7 +25,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
-// app.use('/api/order',orderRouter);
+app.use('/api/order',orderRouter);
 app.get("/", (req, resp) => {
     console.log("Hello Server")
     return resp.status(200).json({
