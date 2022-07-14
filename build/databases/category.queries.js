@@ -55,7 +55,7 @@ var CategoryQueries = /** @class */ (function () {
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
                         result = (_a.sent())[0];
-                        if (Number(result.rowsAffected) > 0) {
+                        if (Number(result.affectedRows) > 0) {
                             return [2 /*return*/, true];
                         }
                         return [2 /*return*/, false];

@@ -11,7 +11,7 @@ export default class CategoryQueries {
                 '${category.modifiedID}','${category.modifiedDate}'
             )`;
             var [result,] = await connection.query(sql);
-            if (Number(result.rowsAffected) > 0) {
+            if (Number(result.affectedRows) > 0) {
                 return true;
             }
             return false;
