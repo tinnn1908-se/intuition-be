@@ -64,18 +64,13 @@ export default class AuthController {
             var user: User | null = AuthMiddleware.getUserByToken(token);
             console.log("user : " + typeof user + " - " + user);
             if (user) {
-                return response.status(200).json({
-                    status: 200,
-                    user
-                })
+                return response.status(200).json({ user })
             }
             return response.status(404).json({
-                status: 404,
                 msgErr: "Authorize Failed !"
             })
         }
         return response.status(404).json({
-            status: 404,
             msgErr: "Authorize Failed !"
         })
     }
