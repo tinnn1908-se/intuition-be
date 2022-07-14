@@ -117,6 +117,65 @@ var ProductController = /** @class */ (function () {
             });
         });
     };
+    ProductController.getProductsByLikeName = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var searchValue, page, products, i, tmpSizes, tmpColors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        searchValue = request.params.searchValue;
+                        page = Number(request.params.page);
+                        return [4 /*yield*/, product_query_1.default.getProductsByLikeName(searchValue, page)];
+                    case 1:
+                        products = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        tmpSizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        tmpColors = _a.sent();
+                        products[i].sizes = tmpSizes;
+                        products[i].colors = tmpColors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6: return [2 /*return*/, response.json({
+                            products: products
+                        })];
+                }
+            });
+        });
+    };
+    ProductController.getProductByID = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var productNo, product, sizes, colors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        productNo = request.params.productNo;
+                        return [4 /*yield*/, product_query_1.default.getProductByID(productNo)];
+                    case 1:
+                        product = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(product.no)];
+                    case 2:
+                        sizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(product.no)];
+                    case 3:
+                        colors = _a.sent();
+                        product.sizes = sizes;
+                        product.colors = colors;
+                        return [2 /*return*/, response.json({
+                                product: product
+                            })];
+                }
+            });
+        });
+    };
     return ProductController;
 }());
 exports.default = ProductController;

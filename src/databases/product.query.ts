@@ -18,33 +18,46 @@ export default class ProductQueries {
 
     }
     static async getSizeByProductNo(productNo: string) {
-        var sql = 'SELECT S.value FROM tproducts P JOIN tproductsize M ON P.no = M.product_no JOIN TSIZES S ON M.size_no = S.no '
-            + `WHERE P.no =  ${productNo}`;
         var connection = await getConnection();
-        var [result,] = await connection.query(sql);
-        var returnValues = [];
-        for (let index = 0; index < result.length; index++) {
-            const value = result[index].value;
-            returnValues.push(value);
+        try {
+            var sql = 'SELECT S.value FROM tproducts P JOIN tproductsize M ON P.no = M.product_no JOIN TSIZES S ON M.size_no = S.no '
+                + `WHERE P.no =  ${productNo}`;
+            var [result,] = await connection.query(sql);
+            var returnValues = [];
+            for (let index = 0; index < result.length; index++) {
+                const value = result[index].value;
+                returnValues.push(value);
+            }
+            MyHelper.dbLog(this.getSizeByProductNo.name, sql);
+            return returnValues;
+        } catch (error) {
+            MyHelper.errLog(this.getSizeByProductNo.name, error);
+        } finally {
+            connection.end();
         }
-        MyHelper.dbLog(this.getSizeByProductNo.name, sql);
-        return returnValues;
     }
     static async getColorsByProductNo(productNo: string) {
-        var sql = 'SELECT C.value, C.name FROM TPRODUCTS P '
-            + 'JOIN TPRODUCTCOLOR M ON P.no = M.product_no '
-            + 'JOIN TCOLORS C ON M.color_no = C.no '
-            + `WHERE P.no =  ${productNo}`;
         var connection = await getConnection();
-        var [result,] = await connection.query(sql);
-        var returnValues = [];
-        for (let index = 0; index < result.length; index++) {
-            const value = result[index].value;
-            const name = result[index].name;
-            returnValues.push({ value, name });
+        try {
+            var sql = 'SELECT C.value, C.name FROM TPRODUCTS P '
+                + 'JOIN TPRODUCTCOLOR M ON P.no = M.product_no '
+                + 'JOIN TCOLORS C ON M.color_no = C.no '
+                + `WHERE P.no =  ${productNo}`;
+
+            var [result,] = await connection.query(sql);
+            var returnValues = [];
+            for (let index = 0; index < result.length; index++) {
+                const value = result[index].value;
+                const name = result[index].name;
+                returnValues.push({ value, name });
+            }
+            MyHelper.dbLog(this.getColorsByProductNo.name, sql);
+            return returnValues;
+        } catch (error) {
+            MyHelper.errLog(this.getColorsByProductNo.name, error);
+        } finally {
+            connection.end();
         }
-        MyHelper.dbLog(this.getColorsByProductNo.name, sql);
-        return returnValues;
     }
     static async getProductsByFilter(filter: IFilter) {
         var connection = await getConnection();
@@ -109,6 +122,38 @@ export default class ProductQueries {
             return result;
         } catch (error) {
             MyHelper.errLog(this.getProductsByFilter.name, error);
+        } finally {
+            connection.end();
+        }
+    }
+    static async getProductsByLikeName(searchValue: string, page: number) {
+        var connection = await getConnection();
+        var limit = MyHelper.getLimit(page);
+        var offset = MyHelper.getOffSet(page);
+        try {
+            var sql = 'SELECT * FROM TPRODUCTS P '
+                + `WHERE P.name LIKE  + '%${searchValue}%' `
+                + 'ORDER BY P.insert_date '
+                + `LIMIT ${limit} `
+                + `OFFSET ${offset}`
+            var [result,] = await connection.query(sql);
+            return result;
+        } catch (error) {
+            MyHelper.errLog(this.getProductsByLikeName.name, error);
+        } finally {
+            connection.end();
+        }
+    }
+    static async getProductByID(productNo: string) {
+        var connection = await getConnection();
+        try {
+            var sql = 'SELECT * FROM TPRODUCTS P '
+                + `WHERE P.no = ${productNo}`;
+            var [result,] = await connection.query(sql);
+            MyHelper.dbLog(this.getProductByID.name,sql);
+            return result[0];
+        } catch (error) {
+            MyHelper.errLog(this.getProductByID.name,error);
         } finally {
             connection.end();
         }

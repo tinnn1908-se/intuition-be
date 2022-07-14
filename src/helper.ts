@@ -1,7 +1,5 @@
 export default class MyHelper {
-    static getOffset(currPage: number = 1, listPerPage: number) {
-        return ((currPage - 1) * listPerPage);
-    }
+
     static isEmpty(rows: Array<any>) {
         if (!rows || rows.length === 0) {
             return []
@@ -13,6 +11,12 @@ export default class MyHelper {
     }
     static errLog(fncName : string, err : any){
         console.log(`${fncName} : ${err}`)
+    }
+    static getOffSet(currPage : number = 1){
+        return ((currPage-1) * 5);        
+    }
+    static getLimit(currPage : number = 1){
+        return (currPage*5)
     }
 
 }
