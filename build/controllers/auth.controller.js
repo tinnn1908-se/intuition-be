@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var bcrypt_1 = __importDefault(require("bcrypt"));
+var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var helper_1 = __importDefault(require("../helper"));
 var user_query_1 = __importDefault(require("../databases/user.query"));
 var AuthController = /** @class */ (function () {
@@ -62,10 +62,10 @@ var AuthController = /** @class */ (function () {
                             address: request.body.address,
                             role: 'USER'
                         };
-                        return [4 /*yield*/, bcrypt_1.default.genSalt(10)];
+                        return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
                     case 1:
                         salt = _a.sent();
-                        return [4 /*yield*/, bcrypt_1.default.hash(user.password, salt)];
+                        return [4 /*yield*/, bcryptjs_1.default.hash(user.password, salt)];
                     case 2:
                         hashPassword = _a.sent();
                         user.password = hashPassword;
