@@ -130,18 +130,13 @@ var AuthController = /** @class */ (function () {
                     user = auth_middleware_1.default.getUserByToken(token);
                     console.log("user : " + typeof user + " - " + user);
                     if (user) {
-                        return [2 /*return*/, response.status(200).json({
-                                status: 200,
-                                user: user
-                            })];
+                        return [2 /*return*/, response.status(200).json({ user: user })];
                     }
                     return [2 /*return*/, response.status(404).json({
-                            status: 404,
                             msgErr: "Authorize Failed !"
                         })];
                 }
                 return [2 /*return*/, response.status(404).json({
-                        status: 404,
                         msgErr: "Authorize Failed !"
                     })];
             });
