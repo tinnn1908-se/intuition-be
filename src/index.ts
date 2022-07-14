@@ -4,11 +4,11 @@ import bodyParser from 'body-parser'
 import ProductController from './routes/product.route';
 import productRouter from './routes/product.route';
 // import userRouter from './routes/user.router';
-// import authRouter from './routes/auth.router'
+import authRouter from './routes/auth.route'
 // import categoryRouter from './routes/category.router'
 // import productRouter from './routes/product.router';
 // import orderRouter from './routes/order.router';
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 1908;
 const app = express();
 
 
@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 
 /** Router */
 // app.use('/api/user',userRouter);
-// app.use('/api/auth',authRouter);
+app.use('/api/auth',authRouter);
 // app.use('/api/category',categoryRouter);
 app.use('/api/product',productRouter);
 // app.use('/api/order',orderRouter);

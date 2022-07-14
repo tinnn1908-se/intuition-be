@@ -45,7 +45,7 @@ var ProductController = /** @class */ (function () {
     }
     ProductController.getNewestProducts = function (req, resp) {
         return __awaiter(this, void 0, void 0, function () {
-            var products;
+            var products, i, sizes, colors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -53,11 +53,125 @@ var ProductController = /** @class */ (function () {
                         return [4 /*yield*/, product_query_1.default.getNewestProducts()];
                     case 1:
                         products = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        sizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        colors = _a.sent();
+                        products[i].sizes = sizes;
+                        products[i].colors = colors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6:
                         console.log(products);
                         resp.status(200).json({
                             products: products
                         });
                         return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductController.getProductsByFilter = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var cates, sizes, colors, price, filter, products, i, tmpSizes, tmpColors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        cates = request.body.cates;
+                        sizes = request.body.sizes;
+                        colors = request.body.colors;
+                        price = request.body.price;
+                        filter = { cates: cates, sizes: sizes, colors: colors, price: price };
+                        console.log(filter);
+                        return [4 /*yield*/, product_query_1.default.getProductsByFilter(filter)];
+                    case 1:
+                        products = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        tmpSizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        tmpColors = _a.sent();
+                        products[i].sizes = tmpSizes;
+                        products[i].colors = tmpColors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6:
+                        console.log(products);
+                        return [2 /*return*/, response.status(200).json({ products: products })];
+                }
+            });
+        });
+    };
+    ProductController.getProductsByLikeName = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var searchValue, page, products, i, tmpSizes, tmpColors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        searchValue = request.params.searchValue;
+                        page = Number(request.params.page);
+                        return [4 /*yield*/, product_query_1.default.getProductsByLikeName(searchValue, page)];
+                    case 1:
+                        products = _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < products.length)) return [3 /*break*/, 6];
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(products[i].no)];
+                    case 3:
+                        tmpSizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(products[i].no)];
+                    case 4:
+                        tmpColors = _a.sent();
+                        products[i].sizes = tmpSizes;
+                        products[i].colors = tmpColors;
+                        _a.label = 5;
+                    case 5:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 6: return [2 /*return*/, response.json({
+                            products: products
+                        })];
+                }
+            });
+        });
+    };
+    ProductController.getProductByID = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var productNo, product, sizes, colors;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        productNo = request.params.productNo;
+                        return [4 /*yield*/, product_query_1.default.getProductByID(productNo)];
+                    case 1:
+                        product = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getSizeByProductNo(product.no)];
+                    case 2:
+                        sizes = _a.sent();
+                        return [4 /*yield*/, product_query_1.default.getColorsByProductNo(product.no)];
+                    case 3:
+                        colors = _a.sent();
+                        product.sizes = sizes;
+                        product.colors = colors;
+                        return [2 /*return*/, response.json({
+                                product: product
+                            })];
                 }
             });
         });

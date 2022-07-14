@@ -35,27 +35,264 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../db");
 var db_constant_1 = require("../constants/db.constant");
+var helper_1 = __importDefault(require("../helper"));
 var ProductQueries = /** @class */ (function () {
     function ProductQueries() {
     }
     ProductQueries.getNewestProducts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, connection, result;
+            var connection, sql, result, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
-                        console.log("ProductQueries");
-                        return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
                         connection = _a.sent();
-                        return [4 /*yield*/, connection.query(sql)];
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
                         result = _a.sent();
+                        helper_1.default.dbLog(this.getNewestProducts.name, sql);
                         return [2 /*return*/, result[0]];
+                    case 4:
+                        error_1 = _a.sent();
+                        helper_1.default.errLog(this.getNewestProducts.name, error_1);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductQueries.getSizeByProductNo = function (productNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, returnValues, index, value, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = 'SELECT S.value FROM tproducts P JOIN tproductsize M ON P.no = M.product_no JOIN TSIZES S ON M.size_no = S.no '
+                            + "WHERE P.no =  ".concat(productNo);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        returnValues = [];
+                        for (index = 0; index < result.length; index++) {
+                            value = result[index].value;
+                            returnValues.push(value);
+                        }
+                        helper_1.default.dbLog(this.getSizeByProductNo.name, sql);
+                        return [2 /*return*/, returnValues];
+                    case 4:
+                        error_2 = _a.sent();
+                        helper_1.default.errLog(this.getSizeByProductNo.name, error_2);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductQueries.getColorsByProductNo = function (productNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, returnValues, index, value, name, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = 'SELECT C.value, C.name FROM TPRODUCTS P '
+                            + 'JOIN TPRODUCTCOLOR M ON P.no = M.product_no '
+                            + 'JOIN TCOLORS C ON M.color_no = C.no '
+                            + "WHERE P.no =  ".concat(productNo);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        returnValues = [];
+                        for (index = 0; index < result.length; index++) {
+                            value = result[index].value;
+                            name = result[index].name;
+                            returnValues.push({ value: value, name: name });
+                        }
+                        helper_1.default.dbLog(this.getColorsByProductNo.name, sql);
+                        return [2 /*return*/, returnValues];
+                    case 4:
+                        error_3 = _a.sent();
+                        helper_1.default.errLog(this.getColorsByProductNo.name, error_3);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductQueries.getProductsByFilter = function (filter) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, cates, colors, sizes, price, cateFilterSql, colorFilterSql, sizeFilterSql, sql, i, i, i, result, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        cates = filter.cates, colors = filter.colors, sizes = filter.sizes, price = filter.price;
+                        cateFilterSql = '';
+                        colorFilterSql = '';
+                        sizeFilterSql = '';
+                        sql = 'SELECT P.no,P.name,P.price,P.description, P.quantity, '
+                            + 'P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date FROM TPRODUCTS P '
+                            + 'JOIN TPRODUCTSIZE SP ON P.no = SP.product_no '
+                            + 'JOIN TSIZES S ON SP.size_no = S.no '
+                            + 'JOIN TPRODUCTCOLOR PCO ON P.no = PCO.product_no '
+                            + 'JOIN TCOLORS CO ON CO.no = PCO.color_no '
+                            + 'JOIN TCATEGORIES CA ON P.cate_no = CA.no '
+                            + 'WHERE P.quantity > 0 '
+                            + "AND P.price >= ".concat(price.min, " AND P.price <= ").concat(price.max, " ");
+                        console.log("cates lenght : " + filter.cates.length);
+                        if (cates.length > 0) {
+                            console.log("> 0");
+                            cateFilterSql = "AND CA.name IN (";
+                            for (i = 0; i < cates.length; i++) {
+                                if (i !== (cates.length - 1)) {
+                                    cateFilterSql += "'".concat(cates[i], "',");
+                                }
+                                else {
+                                    cateFilterSql += "'".concat(cates[i], "'");
+                                }
+                            }
+                            cateFilterSql += ") ";
+                            sql += cateFilterSql;
+                        }
+                        if (colors.length > 0) {
+                            console.log("> 0");
+                            colorFilterSql = "AND CO.name IN (";
+                            for (i = 0; i < colors.length; i++) {
+                                if (i !== (colors.length - 1)) {
+                                    colorFilterSql += "N'".concat(colors[i], "',");
+                                }
+                                else {
+                                    colorFilterSql += "N'".concat(colors[i], "'");
+                                }
+                            }
+                            colorFilterSql += ") ";
+                            sql += colorFilterSql;
+                        }
+                        if (sizes.length > 0) {
+                            console.log("> 0");
+                            sizeFilterSql = "AND S.value IN (";
+                            for (i = 0; i < sizes.length; i++) {
+                                if (i !== (sizes.length - 1)) {
+                                    sizeFilterSql += "'".concat(sizes[i], "',");
+                                }
+                                else {
+                                    sizeFilterSql += "'".concat(sizes[i], "'");
+                                }
+                            }
+                            sizeFilterSql += ") ";
+                            sql += sizeFilterSql;
+                        }
+                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 5";
+                        console.log(sql);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log("getProductsByFilter : " + sql);
+                        return [2 /*return*/, result];
+                    case 4:
+                        error_4 = _a.sent();
+                        helper_1.default.errLog(this.getProductsByFilter.name, error_4);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductQueries.getProductsByLikeName = function (searchValue, page) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, limit, offset, sql, result, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        limit = helper_1.default.getLimit(page);
+                        offset = helper_1.default.getOffSet(page);
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = 'SELECT * FROM TPRODUCTS P '
+                            + "WHERE P.name LIKE  + '%".concat(searchValue, "%' ")
+                            + 'ORDER BY P.insert_date '
+                            + "LIMIT ".concat(limit, " ")
+                            + "OFFSET ".concat(offset);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        return [2 /*return*/, result];
+                    case 4:
+                        error_5 = _a.sent();
+                        helper_1.default.errLog(this.getProductsByLikeName.name, error_5);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ProductQueries.getProductByID = function (productNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = 'SELECT * FROM TPRODUCTS P '
+                            + "WHERE P.no = ".concat(productNo);
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        helper_1.default.dbLog(this.getProductByID.name, sql);
+                        return [2 /*return*/, result[0]];
+                    case 4:
+                        error_6 = _a.sent();
+                        helper_1.default.errLog(this.getProductByID.name, error_6);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
