@@ -85,7 +85,7 @@ var CategoryQueries = /** @class */ (function () {
                         return [4 /*yield*/, connection.query(sql)];
                     case 2:
                         result = (_a.sent())[0];
-                        return [2 /*return*/, result.recordset];
+                        return [2 /*return*/, result];
                     case 3:
                         error_2 = _a.sent();
                         console.log(error_2);

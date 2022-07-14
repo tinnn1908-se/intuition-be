@@ -28,7 +28,7 @@ export default class CategoryQueries {
             var connection = await getConnection();
             var sql = `SELECT * FROM TCATEGORIES`;
             var [result,] = await connection.query(sql);
-            return result.recordset;
+            return result;
         } catch (error) {
             console.log(error)
             return null;

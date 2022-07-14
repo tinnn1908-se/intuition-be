@@ -92,10 +92,7 @@ var CategoryController = /** @class */ (function () {
                     case 0: return [4 /*yield*/, category_queries_1.default.findAllCategories()];
                     case 1:
                         result = _a.sent();
-                        return [2 /*return*/, response.json({
-                                status: 200,
-                                data: result
-                            })];
+                        return [2 /*return*/, response.json({ data: result })];
                 }
             });
         });

@@ -28,10 +28,7 @@ export default class CategoryController {
 
     static async findAllCategories(request: Request, response: Response) {
         var result = await CategoryQueries.findAllCategories();
-        return response.json({
-            status: 200,
-            data: result
-        });
+        return response.json({ data: result });
     }
 
 }
