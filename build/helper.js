@@ -23,6 +23,10 @@ var MyHelper = /** @class */ (function () {
         if (currPage === void 0) { currPage = 1; }
         return (currPage * 5);
     };
+    MyHelper.createUserID = function () {
+        var dateObj = new Date();
+        return dateObj.getTime().toString();
+    };
     return MyHelper;
 }());
 exports.default = MyHelper;
