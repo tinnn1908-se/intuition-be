@@ -42,6 +42,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var helper_1 = __importDefault(require("../helper"));
 var user_query_1 = __importDefault(require("../databases/user.query"));
+var auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }
@@ -81,17 +82,68 @@ var AuthController = /** @class */ (function () {
             });
         });
     };
-    AuthController.authenticate = function () {
+    AuthController.authenticate = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
+            var user, accessToken, refreshToken, isCorrectPassword;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        console.log("username : " + request.body.username);
+                        return [4 /*yield*/, user_query_1.default.findByUsername(request.body.username)];
+                    case 1:
+                        user = _a.sent();
+                        accessToken = null;
+                        refreshToken = null;
+                        isCorrectPassword = false;
+                        if (!user) return [3 /*break*/, 3];
+                        return [4 /*yield*/, bcryptjs_1.default.compare(request.body.password, user.password)];
+                    case 2:
+                        isCorrectPassword = _a.sent();
+                        if (isCorrectPassword) {
+                            accessToken = auth_middleware_1.default.generateToken(user);
+                            refreshToken = auth_middleware_1.default.generateRefreshToken(user.username, user.password);
+                        }
+                        _a.label = 3;
+                    case 3:
+                        if (accessToken) {
+                            return [2 /*return*/, response.status(200).json({
+                                    status: 200,
+                                    accessToken: accessToken,
+                                    refreshToken: refreshToken
+                                })];
+                        }
+                        return [2 /*return*/, response.status(404).json({
+                                status: 404,
+                                msgErr: "User not found !"
+                            })];
+                }
             });
         });
     };
-    AuthController.authorize = function () {
+    AuthController.authorize = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
+            var token, user;
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                token = request.body.accessToken;
+                console.log("authorize : " + token);
+                if (token) {
+                    user = auth_middleware_1.default.getUserByToken(token);
+                    console.log("user : " + typeof user + " - " + user);
+                    if (user) {
+                        return [2 /*return*/, response.status(200).json({
+                                status: 200,
+                                user: user
+                            })];
+                    }
+                    return [2 /*return*/, response.status(404).json({
+                            status: 404,
+                            msgErr: "Authorize Failed !"
+                        })];
+                }
+                return [2 /*return*/, response.status(404).json({
+                        status: 404,
+                        msgErr: "Authorize Failed !"
+                    })];
             });
         });
     };

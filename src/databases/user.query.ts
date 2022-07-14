@@ -24,18 +24,18 @@ export default class UserQueries {
             return false;
         }
     }
-    // static async findByUsername(username: string): Promise<User | null> {
-    //     var connection = await getConnection();
-    //     try {
-    //         var sql = `SELECT * FROM TCUSTOMERS WHERE username = '${username}'`;
-    //         var [result,] = await connection.query(sql);
-    //         return result[0];
-    //     } catch (error) {
-    //         return null;
-    //     } finally {
-    //         connection.end();
-    //     }
-    // }
+    static async findByUsername(username: string): Promise<User | null> {
+        var connection = await getConnection();
+        try {
+            var sql = `SELECT * FROM TCUSTOMERS WHERE username = '${username}'`;
+            var [result,] = await connection.query(sql);
+            return result[0];
+        } catch (error) {
+            return null;
+        } finally {
+            connection.end();
+        }
+    }
     // static async findAllUsers(): Promise<Array<User> | null> {
     //     try {
     //         var connection = await DBConnect.connect(DBConfig);
