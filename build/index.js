@@ -15,7 +15,7 @@ var app = (0, express_1.default)();
 /** CORS */
 var allowedOrigins = ['http://localhost:3000', 'https://intuition-be.herokuapp.com'];
 var options = {
-    origin: allowedOrigins
+    origin: '*',
 };
 app.use((0, cors_1.default)(options));
 /** Body Parser */
