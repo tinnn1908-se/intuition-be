@@ -25,7 +25,7 @@ export default class AuthMiddleware {
         var secretKey = process.env.ACCESS_TOKEN_SECRET;
         var accessToken = '';
         if (secretKey) {
-            accessToken = JWT.sign({user}, secretKey, { expiresIn: '3600s', algorithm: 'HS256' });
+            accessToken = JWT.sign({ user }, secretKey, { expiresIn: '3600s', algorithm: 'HS256' });
         }
         return accessToken;
     }
@@ -42,18 +42,18 @@ export default class AuthMiddleware {
             token = token.substring(1, token.length - 1);
         var decodedToken = JWT.decode(token);
         if (decodedToken && typeof (decodedToken) === 'object') {
-            var user: User = {
-                id: Object.values(decodedToken)[0],
-                fullname: Object.values(decodedToken)[1],
-                username: Object.values(decodedToken)[2],
-                password: Object.values(decodedToken)[3],
-                email: Object.values(decodedToken)[4],
-                phoneNumber: Object.values(decodedToken)[5],
-                birthday: Object.values(decodedToken)[6],
-                address: Object.values(decodedToken)[7],
-                role: Object.values(decodedToken)[8]
-            }
-            console.log("user : " + Object.values(user));
+            // var user: User = {
+            //     id: Object.values(decodedToken)[0],
+            //     fullname: Object.values(decodedToken)[1],
+            //     username: Object.values(decodedToken)[2],
+            //     password: Object.values(decodedToken)[3],
+            //     email: Object.values(decodedToken)[4],
+            //     phoneNumber: Object.values(decodedToken)[5],
+            //     birthday: Object.values(decodedToken)[6],
+            //     address: Object.values(decodedToken)[7],
+            //     role: Object.values(decodedToken)[8]
+            // }
+            var user: User = Object.values(decodedToken)[0];
             return user;
         }
         return null;

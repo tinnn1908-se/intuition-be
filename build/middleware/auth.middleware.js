@@ -48,18 +48,18 @@ var AuthMiddleware = /** @class */ (function () {
             token = token.substring(1, token.length - 1);
         var decodedToken = jsonwebtoken_1.default.decode(token);
         if (decodedToken && typeof (decodedToken) === 'object') {
-            var user = {
-                id: Object.values(decodedToken)[0],
-                fullname: Object.values(decodedToken)[1],
-                username: Object.values(decodedToken)[2],
-                password: Object.values(decodedToken)[3],
-                email: Object.values(decodedToken)[4],
-                phoneNumber: Object.values(decodedToken)[5],
-                birthday: Object.values(decodedToken)[6],
-                address: Object.values(decodedToken)[7],
-                role: Object.values(decodedToken)[8]
-            };
-            console.log("user : " + Object.values(user));
+            // var user: User = {
+            //     id: Object.values(decodedToken)[0],
+            //     fullname: Object.values(decodedToken)[1],
+            //     username: Object.values(decodedToken)[2],
+            //     password: Object.values(decodedToken)[3],
+            //     email: Object.values(decodedToken)[4],
+            //     phoneNumber: Object.values(decodedToken)[5],
+            //     birthday: Object.values(decodedToken)[6],
+            //     address: Object.values(decodedToken)[7],
+            //     role: Object.values(decodedToken)[8]
+            // }
+            var user = Object.values(decodedToken)[0];
             return user;
         }
         return null;
