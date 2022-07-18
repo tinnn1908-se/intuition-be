@@ -16,6 +16,7 @@ var app = (0, express_1.default)();
 var allowedOrigins = ['http://localhost:3000', 'https://intuition-be.herokuapp.com'];
 var options = {
     origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 };
 app.use((0, cors_1.default)(options));
 /** Body Parser */
@@ -23,7 +24,7 @@ app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
 /** Router */
 // app.use('/api/user',userRouter);
-app.use('/api/auth', auth_route_1.default);
+app.use('/api/auth', (0, cors_1.default)(options), auth_route_1.default);
 app.use('/api/category', category_route_1.default);
 app.use('/api/product', product_route_1.default);
 app.use('/api/order', order_route_1.default);

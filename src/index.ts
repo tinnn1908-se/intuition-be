@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 /** Router */
 // app.use('/api/user',userRouter);
-app.use('/api/auth', authRouter);
+app.use('/api/auth',cors(options), authRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
 app.use('/api/order',orderRouter);
