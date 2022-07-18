@@ -13,6 +13,7 @@ const app = express();
 const allowedOrigins = ['http://localhost:3000','https://intuition-be.herokuapp.com'];
 const options: CorsOptions = {
     origin: '*',
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
 }
 app.use(cors(options))
 
