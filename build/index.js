@@ -29,12 +29,12 @@ app.use('/api/auth', auth_route_1.default);
 app.use('/api/category', category_route_1.default);
 app.use('/api/product', product_route_1.default);
 app.use('/api/order', order_route_1.default);
-// app.get("/", (req, resp) => {
-//     console.log("Hello Server")
-//     return resp.status(200).json({
-//         data: "Hello Wolrd"
-//     });
-// })
+app.get("/", function (req, resp) {
+    console.log("Hello Server");
+    return resp.status(200).json({
+        data: "Hello Wolrd"
+    });
+});
 /** App Running */
 app.listen(port, function () {
     console.log('UserAPI is runnning at ' + port);

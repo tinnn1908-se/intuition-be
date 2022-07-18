@@ -28,12 +28,12 @@ app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
 app.use('/api/order',orderRouter);
-// app.get("/", (req, resp) => {
-//     console.log("Hello Server")
-//     return resp.status(200).json({
-//         data: "Hello Wolrd"
-//     });
-// })
+app.get("/", (req, resp) => {
+    console.log("Hello Server")
+    return resp.status(200).json({
+        data: "Hello Wolrd"
+    });
+})
 /** App Running */
 app.listen(port, () => {
     console.log('UserAPI is runnning at ' + port);
