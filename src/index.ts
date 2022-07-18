@@ -13,7 +13,8 @@ const app = express();
 const allowedOrigins = ['http://localhost:3000','https://intuition-be.herokuapp.com'];
 const options: CorsOptions = {
     origin: '*',
-    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+    methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH'],
+    allowedHeaders : '*'
 }
 app.use(cors(options))
 
@@ -23,16 +24,16 @@ app.use(bodyParser.json());
 
 /** Router */
 // app.use('/api/user',userRouter);
-app.use('/api/auth',cors(options), authRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/product', productRouter);
 app.use('/api/order',orderRouter);
-app.get("/", (req, resp) => {
-    console.log("Hello Server")
-    return resp.status(200).json({
-        data: "Hello Wolrd"
-    });
-})
+// app.get("/", (req, resp) => {
+//     console.log("Hello Server")
+//     return resp.status(200).json({
+//         data: "Hello Wolrd"
+//     });
+// })
 /** App Running */
 app.listen(port, () => {
     console.log('UserAPI is runnning at ' + port);
