@@ -54,6 +54,7 @@ export default class AuthMiddleware {
             //     role: Object.values(decodedToken)[8]
             // }
             var user: User = Object.values(decodedToken)[0];
+            console.log("user : " + user)
             return user;
         }
         return null;

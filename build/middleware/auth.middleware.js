@@ -60,6 +60,7 @@ var AuthMiddleware = /** @class */ (function () {
             //     role: Object.values(decodedToken)[8]
             // }
             var user = Object.values(decodedToken)[0];
+            console.log("user : " + user);
             return user;
         }
         return null;
