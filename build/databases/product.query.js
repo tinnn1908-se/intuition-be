@@ -55,7 +55,7 @@ var ProductQueries = /** @class */ (function () {
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, 5, 6]);
-                        sql = "select * from tproducts limit 3";
+                        sql = "select * from tproducts  limit 3";
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
                         result = _a.sent();
