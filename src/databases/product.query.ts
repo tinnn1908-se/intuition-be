@@ -6,7 +6,7 @@ export default class ProductQueries {
     static async getNewestProducts() {
         var connection = await getConnection();
         try {
-            var sql: string = `select * from ${DBCONSTANTS.PRODUCTS_TABLE} limit 3`;
+            var sql: string = `select * from tproductscode  limit 3`;
             const result = await connection.query(sql);
             MyHelper.dbLog(this.getNewestProducts.name, sql);
             return result[0];

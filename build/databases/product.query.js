@@ -40,7 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../db");
-var db_constant_1 = require("../constants/db.constant");
 var helper_1 = __importDefault(require("../helper"));
 var ProductQueries = /** @class */ (function () {
     function ProductQueries() {
@@ -56,7 +55,7 @@ var ProductQueries = /** @class */ (function () {
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, 5, 6]);
-                        sql = "select * from ".concat(db_constant_1.DBCONSTANTS.PRODUCTS_TABLE, " limit 3");
+                        sql = "select * from tproducts limit 3";
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
                         result = _a.sent();
