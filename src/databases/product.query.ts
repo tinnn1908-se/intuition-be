@@ -115,7 +115,7 @@ export default class ProductQueries {
                 sizeFilterSql += ") ";
                 sql += sizeFilterSql;
             }
-            sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 5";
+            sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 3";
             console.log(sql);
             var [result,] = await connection.query(sql);
             console.log("getProductsByFilter : " + sql);
@@ -157,5 +157,8 @@ export default class ProductQueries {
         } finally {
             connection.end();
         }
+    }
+    static async getAllProducts() {
+        
     }
 }

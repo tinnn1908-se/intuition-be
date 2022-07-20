@@ -213,7 +213,7 @@ var ProductQueries = /** @class */ (function () {
                             sizeFilterSql += ") ";
                             sql += sizeFilterSql;
                         }
-                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 5";
+                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 3";
                         console.log(sql);
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
@@ -293,6 +293,13 @@ var ProductQueries = /** @class */ (function () {
                         return [7 /*endfinally*/];
                     case 6: return [2 /*return*/];
                 }
+            });
+        });
+    };
+    ProductQueries.getAllProducts = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
             });
         });
     };

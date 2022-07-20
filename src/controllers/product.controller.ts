@@ -3,7 +3,7 @@ import ProductQueries from "../databases/product.query";
 import { IFilter } from "../model";
 
 export default class ProductController {
-    static async getNewestProducts(req: Request, resp: Response) {
+    static async getNewestProducts(request: Request, response: Response) {
         console.log("ProductController")
         const products = await ProductQueries.getNewestProducts();
         for (let i = 0; i < products.length; i++) {
@@ -13,7 +13,7 @@ export default class ProductController {
             products[i].colors = colors;
         }
         console.log(products)
-        resp.status(200).json({
+        response.status(200).json({
             products
         })
     }
@@ -35,7 +35,7 @@ export default class ProductController {
             products[i].colors = tmpColors;
         }
         console.log(products)
-        return response.status(200).json({products});
+        return response.status(200).json({ products });
     }
     static async getProductsByLikeName(request: Request, response: Response) {
         var searchValue: string = request.params.searchValue;
@@ -62,4 +62,5 @@ export default class ProductController {
             product
         })
     }
+
 }

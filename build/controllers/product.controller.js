@@ -43,7 +43,7 @@ var product_query_1 = __importDefault(require("../databases/product.query"));
 var ProductController = /** @class */ (function () {
     function ProductController() {
     }
-    ProductController.getNewestProducts = function (req, resp) {
+    ProductController.getNewestProducts = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
             var products, i, sizes, colors;
             return __generator(this, function (_a) {
@@ -71,7 +71,7 @@ var ProductController = /** @class */ (function () {
                         return [3 /*break*/, 2];
                     case 6:
                         console.log(products);
-                        resp.status(200).json({
+                        response.status(200).json({
                             products: products
                         });
                         return [2 /*return*/];
