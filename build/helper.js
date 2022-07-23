@@ -15,13 +15,14 @@ var MyHelper = /** @class */ (function () {
     MyHelper.errLog = function (fncName, err) {
         console.log("".concat(fncName, " : ").concat(err));
     };
-    MyHelper.getOffSet = function (currPage) {
+    // qpo : quantity loading per one
+    MyHelper.getOffSet = function (currPage, qlpo) {
         if (currPage === void 0) { currPage = 1; }
-        return ((currPage - 1) * 5);
+        return ((currPage - 1) * qlpo);
     };
-    MyHelper.getLimit = function (currPage) {
+    MyHelper.getLimit = function (currPage, qlpo) {
         if (currPage === void 0) { currPage = 1; }
-        return (currPage * 5);
+        return (currPage * qlpo);
     };
     MyHelper.createUserID = function () {
         var dateObj = new Date();

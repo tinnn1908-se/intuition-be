@@ -59,8 +59,10 @@ export default class ProductQueries {
             connection.end();
         }
     }
-    static async getProductsByFilter(filter: IFilter) {
+    static async getProductsByFilter(filter: IFilter, pagination: number) {
         var connection = await getConnection();
+        var limit = MyHelper.getLimit(pagination, 3);
+        var offset = MyHelper.getOffSet(pagination, 15);
         try {
             var { cates, colors, sizes, price } = filter;
             var cateFilterSql = '';
@@ -115,10 +117,9 @@ export default class ProductQueries {
                 sizeFilterSql += ") ";
                 sql += sizeFilterSql;
             }
-            sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 3";
+            sql += `GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 15 OFFSET ${offset}`;
             console.log(sql);
             var [result,] = await connection.query(sql);
-            console.log("getProductsByFilter : " + sql);
             return result;
         } catch (error) {
             MyHelper.errLog(this.getProductsByFilter.name, error);
@@ -128,8 +129,8 @@ export default class ProductQueries {
     }
     static async getProductsByLikeName(searchValue: string, page: number) {
         var connection = await getConnection();
-        var limit = MyHelper.getLimit(page);
-        var offset = MyHelper.getOffSet(page);
+        var limit = MyHelper.getLimit(page, 5);
+        var offset = MyHelper.getOffSet(page, 5);
         try {
             var sql = 'SELECT * FROM TPRODUCTS P '
                 + `WHERE P.name LIKE  + '%${searchValue}%' `
@@ -150,15 +151,12 @@ export default class ProductQueries {
             var sql = 'SELECT * FROM TPRODUCTS P '
                 + `WHERE P.no = ${productNo}`;
             var [result,] = await connection.query(sql);
-            MyHelper.dbLog(this.getProductByID.name,sql);
+            MyHelper.dbLog(this.getProductByID.name, sql);
             return result[0];
         } catch (error) {
-            MyHelper.errLog(this.getProductByID.name,error);
+            MyHelper.errLog(this.getProductByID.name, error);
         } finally {
             connection.end();
         }
-    }
-    static async getAllProducts() {
-        
     }
 }

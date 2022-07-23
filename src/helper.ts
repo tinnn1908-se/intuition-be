@@ -12,11 +12,12 @@ export default class MyHelper {
     static errLog(fncName: string, err: any) {
         console.log(`${fncName} : ${err}`)
     }
-    static getOffSet(currPage: number = 1) {
-        return ((currPage - 1) * 5);
+    // qpo : quantity loading per one
+    static getOffSet(currPage: number = 1, qlpo: number) {
+        return ((currPage - 1) * qlpo);
     }
-    static getLimit(currPage: number = 1) {
-        return (currPage * 5)
+    static getLimit(currPage: number = 1, qlpo: number) {
+        return (currPage * qlpo)
     }
     static createUserID(): string {
         var dateObj = new Date();
