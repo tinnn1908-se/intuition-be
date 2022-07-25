@@ -146,14 +146,16 @@ var ProductQueries = /** @class */ (function () {
             });
         });
     };
-    ProductQueries.getProductsByFilter = function (filter) {
+    ProductQueries.getProductsByFilter = function (filter, pagination) {
         return __awaiter(this, void 0, void 0, function () {
-            var connection, cates, colors, sizes, price, cateFilterSql, colorFilterSql, sizeFilterSql, sql, i, i, i, result, error_4;
+            var connection, limit, offset, cates, colors, sizes, price, cateFilterSql, colorFilterSql, sizeFilterSql, sql, i, i, i, result, error_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
                         connection = _a.sent();
+                        limit = helper_1.default.getLimit(pagination, 3);
+                        offset = helper_1.default.getOffSet(pagination, 15);
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, 5, 6]);
@@ -213,12 +215,11 @@ var ProductQueries = /** @class */ (function () {
                             sizeFilterSql += ") ";
                             sql += sizeFilterSql;
                         }
-                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 5";
+                        sql += "GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 15 OFFSET ".concat(offset);
                         console.log(sql);
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
                         result = (_a.sent())[0];
-                        console.log("getProductsByFilter : " + sql);
                         return [2 /*return*/, result];
                     case 4:
                         error_4 = _a.sent();
@@ -240,8 +241,8 @@ var ProductQueries = /** @class */ (function () {
                     case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
                     case 1:
                         connection = _a.sent();
-                        limit = helper_1.default.getLimit(page);
-                        offset = helper_1.default.getOffSet(page);
+                        limit = helper_1.default.getLimit(page, 5);
+                        offset = helper_1.default.getOffSet(page, 5);
                         _a.label = 2;
                     case 2:
                         _a.trys.push([2, 4, 5, 6]);
