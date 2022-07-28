@@ -55,15 +55,16 @@ var OrderController = /** @class */ (function () {
                             address: request.body.address,
                             fullname: request.body.fullname,
                             phoneNumber: request.body.phoneNumber,
-                            promotionID: request.body.promotionID,
-                            userID: request.body.userID,
-                            paymentMethod: Number(request.body.paymentMethod),
+                            promotion_id: request.body.promotionID,
+                            user_id: request.body.userID,
+                            payment_method: Number(request.body.paymentMethod),
                             quantity: request.body.quantity,
                             status: Number(request.body.status),
-                            subTotal: request.body.subTotal,
-                            insertDate: helper_1.default.getCurrentDateTime(),
-                            modifiedDate: ''
+                            subtotal: request.body.subTotal,
+                            insert_date: helper_1.default.getCurrentDateTime(),
+                            modified_date: ''
                         };
+                        console.log(order.phoneNumber);
                         return [4 /*yield*/, order_query_1.default.createOrder(order)];
                     case 1:
                         result = _a.sent();
@@ -89,6 +90,59 @@ var OrderController = /** @class */ (function () {
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, response.json(result)];
+                }
+            });
+        });
+    };
+    OrderController.getOrderByPhoneNumber = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var phoneNumber, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        phoneNumber = request.params.phoneNumber;
+                        console.log("getOrderByNo");
+                        return [4 /*yield*/, order_query_1.default.getOrderByPhoneNumber(phoneNumber)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, response.json({
+                                "orders": result
+                            })];
+                }
+            });
+        });
+    };
+    OrderController.getOrderDetailsByOrderNo = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var orderNo, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        orderNo = request.params.orderNo;
+                        console.log("getOrderByNo");
+                        return [4 /*yield*/, order_query_1.default.getOrderDetailsByOrderNo(orderNo)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, response.json({
+                                "orderDetails": result
+                            })];
+                }
+            });
+        });
+    };
+    OrderController.updateOrderStatus = function (request, response) {
+        return __awaiter(this, void 0, void 0, function () {
+            var orderNo, status, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        orderNo = request.params.orderNo;
+                        status = request.params.status;
+                        console.log("getOrderByNo");
+                        return [4 /*yield*/, order_query_1.default.updateOrderStatus(Number(status), orderNo)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, response.json({ result: result })];
                 }
             });
         });

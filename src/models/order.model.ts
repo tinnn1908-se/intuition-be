@@ -2,43 +2,43 @@ export default class Order{
     public no : string;
     public address : string;
     public quantity : number;
-    public promotionID : string;
-    public paymentMethod : number;
-    public subTotal : string;
-    public userID : string;
+    public promotion_id : string;
+    public payment_method : number;
+    public subtotal : string;
+    public user_id : string;
     public fullname : string;
     public phoneNumber : string;
     public status : number;
-    public insertDate : string;
-    public modifiedDate : string
+    public insert_date : string;
+    public modified_date : string
 
 
   constructor(
     no: string, 
     address: string, 
     quantity: number, 
-    promotionID: string, 
-    paymentMethod: number, 
-    subTotal: string, 
-    userID: string, 
+    promotion_id: string, 
+    payment_method: number, 
+    subtotal: string, 
+    user_id: string, 
     fullname: string,
     phoneNumber : string,
     status: number,
-    insertDate : string,
-    modifiedDate : string
+    insert_date : string,
+    modified_date : string
 ) {
     this.no = no
     this.address = address
     this.quantity = quantity
-    this.promotionID = promotionID
-    this.paymentMethod = paymentMethod
-    this.subTotal = subTotal
-    this.userID = userID
+    this.promotion_id = promotion_id
+    this.payment_method = payment_method
+    this.subtotal = subtotal
+    this.user_id = user_id
     this.fullname = fullname
     this.phoneNumber = phoneNumber
     this.status = status,
-    this.insertDate = insertDate,
-    this.modifiedDate = modifiedDate
+    this.insert_date = insert_date,
+    this.modified_date = modified_date
   }
 
 

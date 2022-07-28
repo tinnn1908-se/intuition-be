@@ -11,15 +11,16 @@ export default class OrderController {
             address : request.body.address,
             fullname : request.body.fullname,
             phoneNumber : request.body.phoneNumber,
-            promotionID : request.body.promotionID,
-            userID : request.body.userID,
-            paymentMethod : Number(request.body.paymentMethod),
+            promotion_id : request.body.promotionID,
+            user_id : request.body.userID,
+            payment_method : Number(request.body.paymentMethod),
             quantity : request.body.quantity,
             status : Number(request.body.status),
-            subTotal : request.body.subTotal,
-            insertDate : MyHelper.getCurrentDateTime(),
-            modifiedDate : ''
+            subtotal : request.body.subTotal,
+            insert_date : MyHelper.getCurrentDateTime(),
+            modified_date : ''
         }
+        console.log(order.phoneNumber)
         var result = await OrderQueries.createOrder(order);
         return response.json(result)
     }
@@ -35,4 +36,29 @@ export default class OrderController {
         var result = await OrderQueries.createOrderDetail(orderDetail);
         return response.json(result)
     }
+    static async getOrderByPhoneNumber(request : Request, response : Response){
+        var phoneNumber = request.params.phoneNumber;
+        console.log("getOrderByNo")
+        var result = await OrderQueries.getOrderByPhoneNumber(phoneNumber);
+        return response.json({
+            "orders" : result
+        })
+    }
+    static async getOrderDetailsByOrderNo(request : Request, response : Response){
+        var orderNo = request.params.orderNo;
+        console.log("getOrderByNo")
+        var result = await OrderQueries.getOrderDetailsByOrderNo(orderNo);
+        return response.json({
+            "orderDetails" : result
+        })
+    }
+    static async updateOrderStatus(request : Request, response : Response){
+        var orderNo = request.params.orderNo;
+        var status = request.params.status;
+        console.log("getOrderByNo")
+        var result = await OrderQueries.updateOrderStatus(Number(status),orderNo);
+        return response.json({result});
+    }
+    
+    
 }
