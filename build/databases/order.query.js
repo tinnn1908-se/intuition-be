@@ -53,9 +53,9 @@ var OrderQueries = /** @class */ (function () {
                         _a.trys.push([2, 4, , 5]);
                         sql = 'INSERT INTO TORDERS '
                             + "VALUES('".concat(order.no, "',N'").concat(order.address, "',")
-                            + "".concat(order.quantity, ",NULL,").concat(order.paymentMethod, ",")
-                            + "'".concat(order.subTotal, "','").concat(order.userID, "','").concat(order.phoneNumber, "',")
-                            + "N'".concat(order.fullname, "',").concat(order.status, ",'").concat(order.insertDate, "',NULL)");
+                            + "".concat(order.quantity, ",NULL,").concat(order.payment_method, ",")
+                            + "'".concat(order.subtotal, "','").concat(order.user_id, "','").concat(order.phoneNumber, "',")
+                            + "N'".concat(order.fullname, "',").concat(order.status, ",'").concat(order.insert_date, "',NULL)");
                         return [4 /*yield*/, connection.query(sql)];
                     case 3:
                         result = (_a.sent())[0];
@@ -98,6 +98,100 @@ var OrderQueries = /** @class */ (function () {
                         console.log(error_2);
                         return [2 /*return*/, false];
                     case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrderQueries.getOrderByPhoneNumber = function (phoneNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "SELECT o.no, o.address, o.quantity, o.payment_method, o.subtotal, o.status, o.insert_date "
+                            + "FROM torders o "
+                            + "WHERE o.phoneNumber = '".concat(phoneNumber, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log("result : " + result);
+                        console.log(sql);
+                        return [2 /*return*/, result];
+                    case 4:
+                        error_3 = _a.sent();
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrderQueries.getOrderDetailsByOrderNo = function (orderNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "SELECT p.name, p.price, po.quantity, po.total FROM torders o "
+                            + " JOIN tproductorder po ON o.no = po.order_no "
+                            + " JOIN tproducts p ON p.no = po.product_no "
+                            + "WHERE o.no = '".concat(orderNo, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log("result : " + result);
+                        console.log(sql);
+                        return [2 /*return*/, result];
+                    case 4:
+                        error_4 = _a.sent();
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrderQueries.updateOrderStatus = function (status, orderNo) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "UPDATE torders o SET o.status = ".concat(status, " WHERE o.no = '").concat(orderNo, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log("result : " + result);
+                        if (Number(result.affectedRows) > 0) {
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
+                    case 4:
+                        error_5 = _a.sent();
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
                 }
             });
         });
