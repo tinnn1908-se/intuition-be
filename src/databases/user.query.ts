@@ -36,15 +36,69 @@ export default class UserQueries {
             connection.end();
         }
     }
-    // static async findAllUsers(): Promise<Array<User> | null> {
-    //     try {
-    //         var connection = await DBConnect.connect(DBConfig);
-    //         var sql = `SELECT * FROM TCUSTOMERS`;
-    //         var result = await connection.request().query(sql);
-    //         return result.recordset;
-    //     } catch (error) {
-    //         console.log(`error : ${error}`);
-    //         return null;
-    //     }
-    // }
+    static async updateUser(user: User) {
+        console.log("UQ - updateUser")
+        var connection = await getConnection();
+        try {
+            console.log("UQ - updateUser - try")
+            var sql = `UPDATE tcustomers t SET t.fullname = '${user.fullname}', t.username = '${user.username}', 
+            t.password = '${user.password}', t.email = '${user.email}', 
+            t.phoneNumber = '${user.phoneNumber}',t.birthday = '${user.birthday}' WHERE t.id = '${user.id}'`;
+            var [result,] = await connection.query(sql);
+            console.log(sql)
+            if (Number(result.affectedRows) > 0) {
+                return user;
+            }
+            return null;
+        } catch (error) {
+            console.log(`error : ${error}`);
+            return null;
+        }
+    }
+    static async isUsernameExisted(username: string) {
+        var connection = await getConnection();
+        try {
+            var sql = `SELECT * FROM tcustomers t WHERE t.username = '${username}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
+    static async isPhoneNumberExisted(phoneNumber: string) {
+        var connection = await getConnection();
+        try {
+            var sql = `SELECT * FROM tcustomers t WHERE t.phoneNumber = '${phoneNumber}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
+    static async isEmailExisted(email: string) {
+        var connection = await getConnection();
+        try {
+
+            var sql = `SELECT * FROM tcustomers t WHERE t.email = '${email}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
 }

@@ -43,15 +43,46 @@ var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var helper_1 = __importDefault(require("../helper"));
 var user_query_1 = __importDefault(require("../databases/user.query"));
 var auth_middleware_1 = __importDefault(require("../middleware/auth.middleware"));
+var app_constant_1 = require("../constants/app,constant");
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }
     AuthController.register = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, salt, hashPassword, result;
+            var username, phoneNumber, email, isUsernameExisted, isPhoneNumberExisted, isEmailExisted, errors, user, salt, hashPassword, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        username = request.body.username;
+                        phoneNumber = request.body.phoneNumber;
+                        email = request.body.email;
+                        return [4 /*yield*/, user_query_1.default.isUsernameExisted(username)];
+                    case 1:
+                        isUsernameExisted = _a.sent();
+                        return [4 /*yield*/, user_query_1.default.isPhoneNumberExisted(phoneNumber)];
+                    case 2:
+                        isPhoneNumberExisted = _a.sent();
+                        return [4 /*yield*/, user_query_1.default.isEmailExisted(email)];
+                    case 3:
+                        isEmailExisted = _a.sent();
+                        errors = [];
+                        return [4 /*yield*/, user_query_1.default.isUsernameExisted(username)];
+                    case 4:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_USERNAME_IS_USED);
+                        }
+                        return [4 /*yield*/, user_query_1.default.isPhoneNumberExisted(phoneNumber)];
+                    case 5:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_PHONE_NUMBER_IS_USED);
+                        }
+                        return [4 /*yield*/, user_query_1.default.isEmailExisted(email)];
+                    case 6:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_EMAIL_IS_USED);
+                        }
+                        console.log(errors);
+                        if (!(errors.length === 0)) return [3 /*break*/, 10];
                         user = {
                             id: helper_1.default.createUserID(),
                             fullname: request.body.fullname,
@@ -64,20 +95,23 @@ var AuthController = /** @class */ (function () {
                             role: 'USER'
                         };
                         return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
-                    case 1:
+                    case 7:
                         salt = _a.sent();
                         return [4 /*yield*/, bcryptjs_1.default.hash(user.password, salt)];
-                    case 2:
+                    case 8:
                         hashPassword = _a.sent();
                         user.password = hashPassword;
                         return [4 /*yield*/, user_query_1.default.createUser(user)];
-                    case 3:
+                    case 9:
                         result = _a.sent();
                         console.log("Result : " + result);
                         if (result) {
                             return [2 /*return*/, response.status(200).json(true)];
                         }
-                        return [2 /*return*/, response.status(304).json("Create User Failed !")];
+                        return [2 /*return*/, response.status(304).json(false)];
+                    case 10:
+                        console.log(errors);
+                        return [2 /*return*/, response.status(200).json({ errors: errors })];
                 }
             });
         });
