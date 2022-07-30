@@ -41,40 +41,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var user_query_1 = __importDefault(require("../databases/user.query"));
+var app_constant_1 = require("../constants/app,constant");
 var UserController = /** @class */ (function () {
     function UserController() {
     }
     UserController.updateUser = function (request, response) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, salt, hashPassword, result;
+            var username, phoneNumber, email, errors, user, salt, hashPassword, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log("UC - updateUser");
+                        username = request.body.username;
+                        phoneNumber = request.body.phoneNumber;
+                        email = request.body.email;
+                        errors = [];
+                        return [4 /*yield*/, user_query_1.default.isUsernameExisted(username)];
+                    case 1:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_USERNAME_IS_USED);
+                        }
+                        return [4 /*yield*/, user_query_1.default.isPhoneNumberExisted(phoneNumber)];
+                    case 2:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_PHONE_NUMBER_IS_USED);
+                        }
+                        return [4 /*yield*/, user_query_1.default.isEmailExisted(email)];
+                    case 3:
+                        if (_a.sent()) {
+                            errors.push(app_constant_1.APPLICATIONCONSTANT.ERR_EMAIL_IS_USED);
+                        }
+                        if (!(errors.length === 0)) return [3 /*break*/, 7];
                         user = {
                             id: request.body.id,
                             fullname: request.body.fullname,
-                            username: request.body.username,
+                            username: username,
                             password: request.body.password,
-                            phoneNumber: request.body.phoneNumber,
-                            email: request.body.email,
+                            phoneNumber: phoneNumber,
+                            email: email,
                             birthday: request.body.birthday,
                             address: request.body.address,
                             role: 'USER'
                         };
                         return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
-                    case 1:
+                    case 4:
                         salt = _a.sent();
                         return [4 /*yield*/, bcryptjs_1.default.hash(user.password, salt)];
-                    case 2:
+                    case 5:
                         hashPassword = _a.sent();
                         user.password = hashPassword;
                         return [4 /*yield*/, user_query_1.default.updateUser(user)];
-                    case 3:
+                    case 6:
                         result = _a.sent();
                         if (result !== null)
                             return [2 /*return*/, response.json({ user: user })];
                         return [2 /*return*/, response.status(304).json(null)];
+                    case 7: return [2 /*return*/, response.status(304).json({ errors: errors })];
                 }
             });
         });

@@ -130,6 +130,99 @@ var UserQueries = /** @class */ (function () {
             });
         });
     };
+    UserQueries.isUsernameExisted = function (username) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "SELECT * FROM tcustomers t WHERE t.username = '".concat(username, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        if (result.length > 0) {
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
+                    case 4:
+                        error_4 = _a.sent();
+                        console.log(error_4);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserQueries.isPhoneNumberExisted = function (phoneNumber) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "SELECT * FROM tcustomers t WHERE t.phoneNumber = '".concat(phoneNumber, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        if (result.length > 0) {
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
+                    case 4:
+                        error_5 = _a.sent();
+                        console.log(error_5);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserQueries.isEmailExisted = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, 5, 6]);
+                        sql = "SELECT * FROM tcustomers t WHERE t.email = '".concat(email, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        if (result.length > 0) {
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
+                    case 4:
+                        error_6 = _a.sent();
+                        console.log(error_6);
+                        return [3 /*break*/, 6];
+                    case 5:
+                        connection.end();
+                        return [7 /*endfinally*/];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return UserQueries;
 }());
 exports.default = UserQueries;

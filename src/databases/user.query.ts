@@ -55,15 +55,50 @@ export default class UserQueries {
             return null;
         }
     }
-    // static async findAllUsers(): Promise<Array<User> | null> {
-    //     try {
-    //         var connection = await DBConnect.connect(DBConfig);
-    //         var sql = `SELECT * FROM TCUSTOMERS`;
-    //         var result = await connection.request().query(sql);
-    //         return result.recordset;
-    //     } catch (error) {
-    //         console.log(`error : ${error}`);
-    //         return null;
-    //     }
-    // }
+    static async isUsernameExisted(username: string) {
+        var connection = await getConnection();
+        try {
+            var sql = `SELECT * FROM tcustomers t WHERE t.username = '${username}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
+    static async isPhoneNumberExisted(phoneNumber: string) {
+        var connection = await getConnection();
+        try {
+            var sql = `SELECT * FROM tcustomers t WHERE t.phoneNumber = '${phoneNumber}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
+    static async isEmailExisted(email: string) {
+        var connection = await getConnection();
+        try {
+
+            var sql = `SELECT * FROM tcustomers t WHERE t.email = '${email}'`;
+            var [result,] = await connection.query(sql);
+            if (result.length > 0) {
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.log(error)
+        } finally {
+            connection.end();
+        }
+    }
 }
