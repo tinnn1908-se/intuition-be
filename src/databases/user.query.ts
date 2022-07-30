@@ -36,6 +36,25 @@ export default class UserQueries {
             connection.end();
         }
     }
+    static async updateUser(user: User) {
+        console.log("UQ - updateUser")
+        var connection = await getConnection();
+        try {
+            console.log("UQ - updateUser - try")
+            var sql = `UPDATE tcustomers t SET t.fullname = '${user.fullname}', t.username = '${user.username}', 
+            t.password = '${user.password}', t.email = '${user.email}', 
+            t.phoneNumber = '${user.phoneNumber}',t.birthday = '${user.birthday}' WHERE t.id = '${user.id}'`;
+            var [result,] = await connection.query(sql);
+            console.log(sql)
+            if (Number(result.affectedRows) > 0) {
+                return user;
+            }
+            return null;
+        } catch (error) {
+            console.log(`error : ${error}`);
+            return null;
+        }
+    }
     // static async findAllUsers(): Promise<Array<User> | null> {
     //     try {
     //         var connection = await DBConnect.connect(DBConfig);

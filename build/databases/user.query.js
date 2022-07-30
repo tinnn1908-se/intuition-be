@@ -98,6 +98,38 @@ var UserQueries = /** @class */ (function () {
             });
         });
     };
+    UserQueries.updateUser = function (user) {
+        return __awaiter(this, void 0, void 0, function () {
+            var connection, sql, result, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("UQ - updateUser");
+                        return [4 /*yield*/, (0, db_1.getConnection)()];
+                    case 1:
+                        connection = _a.sent();
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        console.log("UQ - updateUser - try");
+                        sql = "UPDATE tcustomers t SET t.fullname = '".concat(user.fullname, "', t.username = '").concat(user.username, "', \n            t.password = '").concat(user.password, "', t.email = '").concat(user.email, "', \n            t.phoneNumber = '").concat(user.phoneNumber, "',t.birthday = '").concat(user.birthday, "' WHERE t.id = '").concat(user.id, "'");
+                        return [4 /*yield*/, connection.query(sql)];
+                    case 3:
+                        result = (_a.sent())[0];
+                        console.log(sql);
+                        if (Number(result.affectedRows) > 0) {
+                            return [2 /*return*/, user];
+                        }
+                        return [2 /*return*/, null];
+                    case 4:
+                        error_3 = _a.sent();
+                        console.log("error : ".concat(error_3));
+                        return [2 /*return*/, null];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return UserQueries;
 }());
 exports.default = UserQueries;

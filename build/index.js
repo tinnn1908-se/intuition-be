@@ -10,6 +10,7 @@ var product_route_1 = __importDefault(require("./routes/product.route"));
 var auth_route_1 = __importDefault(require("./routes/auth.route"));
 var category_route_1 = __importDefault(require("./routes/category.route"));
 var order_route_1 = __importDefault(require("./routes/order.route"));
+var user_route_1 = __importDefault(require("./routes/user.route"));
 var port = process.env.PORT || 1908;
 var app = (0, express_1.default)();
 /** CORS */
@@ -29,6 +30,7 @@ app.use('/api/auth', auth_route_1.default);
 app.use('/api/category', category_route_1.default);
 app.use('/api/product', product_route_1.default);
 app.use('/api/order', order_route_1.default);
+app.use('/api/user', user_route_1.default);
 app.get("/", function (req, resp) {
     console.log("Hello Server");
     return resp.status(200).json({
