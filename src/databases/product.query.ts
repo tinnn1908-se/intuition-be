@@ -61,8 +61,7 @@ export default class ProductQueries {
     }
     static async getProductsByFilter(filter: IFilter, pagination: number) {
         var connection = await getConnection();
-        var limit = MyHelper.getLimit(pagination, 3);
-        var offset = MyHelper.getOffSet(pagination, 15);
+        var offset = MyHelper.getOffSet(pagination, 30);
         try {
             var { cates, colors, sizes, price } = filter;
             var cateFilterSql = '';
@@ -117,7 +116,7 @@ export default class ProductQueries {
                 sizeFilterSql += ") ";
                 sql += sizeFilterSql;
             }
-            sql += `GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 15 OFFSET ${offset}`;
+            sql += `GROUP BY P.no,P.name,P.price,P.description, P.quantity, P.entp_no, P.cate_no,P.insert_id,P.insert_date,P.modify_id,P.modified_date LIMIT 30 OFFSET ${offset}`;
             console.log(sql);
             var [result,] = await connection.query(sql);
             return result;
